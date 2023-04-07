@@ -1,0 +1,1070 @@
+[
+    {
+        "id": "89f13a3932511a9c",
+        "type": "tab",
+        "label": "Modulertrag",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "436b1e500590f876",
+        "type": "mqtt in",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "topic": "home/office/esp1/temperatureCl3",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "6b99c80a2cc186a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 350,
+        "y": 160,
+        "wires": [
+            [
+                "b6fe4423eb0c79c8"
+            ]
+        ]
+    },
+    {
+        "id": "3f19dd898d43f545",
+        "type": "mqtt in",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "topic": "Yttest/spannung-flach",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "6b99c80a2cc186a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 300,
+        "wires": [
+            [
+                "997695dc6a18e7c5",
+                "2455f8f9a2e6aab3",
+                "217ef759c5824c3b",
+                "c78e5de59f06f81f"
+            ]
+        ]
+    },
+    {
+        "id": "997695dc6a18e7c5",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "fcef9e183b3fd5d0",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Spannung 1 Std.",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "7",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#00ff00",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1050,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2455f8f9a2e6aab3",
+        "type": "function",
+        "z": "89f13a3932511a9c",
+        "name": "Leistung flach",
+        "func": "var math = Number(msg.payload);\nvar pow = math * math / 50;\npow= Math.round(pow * 1000) / 1000;\nmsg.payload = pow;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 360,
+        "wires": [
+            [
+                "1dba55cf84998c0e",
+                "9ff0c37edb3f6686",
+                "3d3714bcfc3fc005"
+            ]
+        ]
+    },
+    {
+        "id": "217ef759c5824c3b",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "cfb165e5ca35e3f4",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Spannung Wochenverlauf",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "7",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#00ff00",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1030,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6a8620ab4a2073db",
+        "type": "mqtt in",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "topic": "Yttest/spannung-steil",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "6b99c80a2cc186a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 480,
+        "wires": [
+            [
+                "e9e4bd1823affc55",
+                "217ef759c5824c3b",
+                "997695dc6a18e7c5",
+                "c3785cfb3ce4c0d9"
+            ]
+        ]
+    },
+    {
+        "id": "e9e4bd1823affc55",
+        "type": "function",
+        "z": "89f13a3932511a9c",
+        "name": "Leistung steil",
+        "func": "var math = Number(msg.payload);\nvar pow = math * math / 50;\npow = Math.round(pow * 1000) / 1000;\nmsg.payload = pow;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 560,
+        "wires": [
+            [
+                "3d3714bcfc3fc005",
+                "1dba55cf84998c0e",
+                "5a9e146628f7a06f"
+            ]
+        ]
+    },
+    {
+        "id": "b6fe4423eb0c79c8",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "fcef9e183b3fd5d0",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "label": "Temperatur Wochenverlauf",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "20",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#00ff00",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1020,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2e74fd64484b9b8d",
+        "type": "mqtt in",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "topic": "home/office/esp1/humidityCl3",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "6b99c80a2cc186a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 340,
+        "y": 100,
+        "wires": [
+            [
+                "3403a58c1dd8a7b2"
+            ]
+        ]
+    },
+    {
+        "id": "3403a58c1dd8a7b2",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "cfb165e5ca35e3f4",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "label": "Feuchtigkeit Wochenverlauf",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "10",
+        "ymax": "95",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#00ff00",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1020,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3d3714bcfc3fc005",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "cfb165e5ca35e3f4",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Leistung Tag  [W]",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1,5",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#800040",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1530,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1dba55cf84998c0e",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "fcef9e183b3fd5d0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Leistung Stunde [W]",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1,5",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#800040",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1520,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c78e5de59f06f81f",
+        "type": "function",
+        "z": "89f13a3932511a9c",
+        "name": "Leistung flach*10",
+        "func": "var math = Number(msg.payload);\nvar pow = math * math / 5;\npow = Math.round(pow * 1000) / 1000;\nmsg.payload = pow;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 440,
+        "wires": [
+            [
+                "ac6170c823d081bb",
+                "d1c5e797a3f2f9d9"
+            ]
+        ]
+    },
+    {
+        "id": "c3785cfb3ce4c0d9",
+        "type": "function",
+        "z": "89f13a3932511a9c",
+        "name": "Leistung steil *10",
+        "func": "var math = Number(msg.payload);\nvar pow = math * math / 5;\npow = Math.round(pow * 1000) / 1000;\nmsg.payload = pow;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 640,
+        "wires": [
+            [
+                "ac6170c823d081bb",
+                "d1c5e797a3f2f9d9"
+            ]
+        ]
+    },
+    {
+        "id": "ac6170c823d081bb",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "fcef9e183b3fd5d0",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Leistung Stunde [W] *10",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1,5",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#800040",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1510,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d1c5e797a3f2f9d9",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "cfb165e5ca35e3f4",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Leistung Tag[W] * 10",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1,5",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#800040",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1520,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d6c519371c0d6f16",
+        "type": "ui_text",
+        "z": "89f13a3932511a9c",
+        "group": "cfb165e5ca35e3f4",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Flach Tag",
+        "label": "TSumme flach",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1560,
+        "y": 380,
+        "wires": [],
+        "info": "<font colour =red>Test"
+    },
+    {
+        "id": "fe710e6b1eb03bf2",
+        "type": "ui_text",
+        "z": "89f13a3932511a9c",
+        "group": "fcef9e183b3fd5d0",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Steil Tag",
+        "label": "TSumme steil",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1560,
+        "y": 580,
+        "wires": [],
+        "info": "<font colour =red>Test"
+    },
+    {
+        "id": "9ff0c37edb3f6686",
+        "type": "function",
+        "z": "89f13a3932511a9c",
+        "name": "Summe pflach",
+        "func": "var pflach=global.get ('pflach') || 0;\npflach=pflach + Number(msg.payload) /60;\npflach = Math.round(pflach * 1000) / 1000;\nmsg.payload=pflach;\nglobal.set('pflach', pflach);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 400,
+        "wires": [
+            [
+                "d6c519371c0d6f16",
+                "81c86b81b8a8dee8"
+            ]
+        ]
+    },
+    {
+        "id": "5a9e146628f7a06f",
+        "type": "function",
+        "z": "89f13a3932511a9c",
+        "name": "Summe psteil",
+        "func": "var psteil=global.get ('psteil') || 0;\npsteil=psteil+Number (msg.payload) /60;\npsteil = Math.round(psteil * 1000) / 1000;\nmsg.payload=psteil;\nglobal.set('psteil', psteil);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 600,
+        "wires": [
+            [
+                "fe710e6b1eb03bf2",
+                "81c86b81b8a8dee8"
+            ]
+        ]
+    },
+    {
+        "id": "b7c0241ae559ddc6",
+        "type": "function",
+        "z": "89f13a3932511a9c",
+        "name": "Zururücksetzen pflach und psteil",
+        "func": "var psteil = global.get ('psteil') || 0;\nvar pflach = global.get ('pflach') || 0;\nvar swpsteil = global.get ('swpsteil') || 0;\nvar swpflach = global.get ('swpflach') || 0;\nswpsteil = swpsteil + psteil;\nswpflach=Math.round(swpflach * 1000)/1000;\nswpflach = swpflach + pflach;\npsteil=0;\npflach=0;\nmsg.payload=swpsteil;\nglobal.set('psteil', psteil);\nglobal.set('pflach', pflach);\nglobal.set('swpsteil',swpsteil);\nglobal.set('swpflach',swpflach);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 820,
+        "wires": [
+            [
+                "5f04714e18583124",
+                "f6e50decc63c5c68"
+            ]
+        ]
+    },
+    {
+        "id": "6d5df7e10a864b17",
+        "type": "inject",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "59 23 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 290,
+        "y": 820,
+        "wires": [
+            [
+                "b7c0241ae559ddc6"
+            ]
+        ]
+    },
+    {
+        "id": "81c86b81b8a8dee8",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "cfb165e5ca35e3f4",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Tagessumme",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "5",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#800040",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1550,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5f04714e18583124",
+        "type": "function",
+        "z": "89f13a3932511a9c",
+        "name": "Wochensumme swpflach",
+        "func": "var swpflach = global.get ('swpflach') || 0;\nmsg.payload = swpflach;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 760,
+        "wires": [
+            [
+                "b89322b2bee06af3"
+            ]
+        ]
+    },
+    {
+        "id": "f6e50decc63c5c68",
+        "type": "function",
+        "z": "89f13a3932511a9c",
+        "name": "Wochensumme wpSteil",
+        "func": "var swpsteil = global.get ('swpsteil') || 0;\nmsg.payload = swpsteil;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 880,
+        "wires": [
+            [
+                "8159a5ef526847ac"
+            ]
+        ]
+    },
+    {
+        "id": "c910008e8466f458",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "cfb165e5ca35e3f4",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Wochensumme ",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "30",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f78b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#800040",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1540,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b89322b2bee06af3",
+        "type": "change",
+        "z": "89f13a3932511a9c",
+        "name": "Topic swpflach",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "swpflach",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1180,
+        "y": 760,
+        "wires": [
+            [
+                "c910008e8466f458",
+                "73cc45773a50c32c",
+                "7902c2dbf9feb1af"
+            ]
+        ]
+    },
+    {
+        "id": "8159a5ef526847ac",
+        "type": "change",
+        "z": "89f13a3932511a9c",
+        "name": "Topic swpsteil",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "swpsteil",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1180,
+        "y": 880,
+        "wires": [
+            [
+                "c910008e8466f458",
+                "73cc45773a50c32c",
+                "7902c2dbf9feb1af"
+            ]
+        ]
+    },
+    {
+        "id": "bc65a9e5fa7a4287",
+        "type": "mqtt in",
+        "z": "89f13a3932511a9c",
+        "name": "SH06 - PV-Energie",
+        "topic": "shellies/shellyplug-s-43708D/relay/0/power",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "6b99c80a2cc186a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 310,
+        "y": 980,
+        "wires": [
+            [
+                "b01a2a0e8c7eb0fc"
+            ]
+        ]
+    },
+    {
+        "id": "7c12a49281d2180a",
+        "type": "function",
+        "z": "89f13a3932511a9c",
+        "name": "Korrektur Tagessumme",
+        "func": "var swpsteil = global.get('swpsteil') || 0;\nvar swpflach = global.get('swpflach') || 0;\nswpsteil =  0.316+0.063+0.058;\nswpflach = 0.572+0.222+0.252;\nglobal.set('swpsteil',swpsteil);\nglobal.set('swpflach',swpflach);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 1080,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b01a2a0e8c7eb0fc",
+        "type": "change",
+        "z": "89f13a3932511a9c",
+        "name": "TestMaysun",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "MaysunBF",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 950,
+        "y": 980,
+        "wires": [
+            [
+                "619bfd64a77b7831"
+            ]
+        ]
+    },
+    {
+        "id": "73cc45773a50c32c",
+        "type": "debug",
+        "z": "89f13a3932511a9c",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1520,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "619bfd64a77b7831",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "cfb165e5ca35e3f4",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Wochensumme ",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "300",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f78b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#800040",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1180,
+        "y": 980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7902c2dbf9feb1af",
+        "type": "ui_chart",
+        "z": "89f13a3932511a9c",
+        "name": "",
+        "group": "cfb165e5ca35e3f4",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Wochensumme 4 Wochen",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "60",
+        "removeOlder": "4",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f78b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#800040",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1580,
+        "y": 960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6b99c80a2cc186a7",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "raspi",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "fcef9e183b3fd5d0",
+        "type": "ui_group",
+        "name": "Spannung",
+        "tab": "94419247f50965c1",
+        "order": 2,
+        "disp": true,
+        "width": 13,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "cfb165e5ca35e3f4",
+        "type": "ui_group",
+        "name": "Leistung",
+        "tab": "94419247f50965c1",
+        "order": 2,
+        "disp": true,
+        "width": 13,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "94419247f50965c1",
+        "type": "ui_tab",
+        "name": "Modultest",
+        "icon": "timeline",
+        "order": 11,
+        "disabled": false,
+        "hidden": false
+    }
+]

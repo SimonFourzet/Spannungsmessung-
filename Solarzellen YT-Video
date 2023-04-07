@@ -21,8 +21,8 @@ long lastMeasure = 0;
 
 //=========================Initialisierungen===================================================
 // Initializes the espClient
-WiFiClient Client4;
-PubSubClient client(Client4);
+WiFiClient Clientname;
+PubSubClient client(Clientname);
 
 //*********************Funktionsaufrufe********************************************************
 //==================== connects ESP8266 to router==============================================
@@ -44,13 +44,12 @@ void setup_wifi() {
 
 //=============================Reconnect and subscription===================================
 // This functions reconnects your ESP8266 to your MQTT broker
-// Change the function below if you want to subscribe to more topics with your ESP8266
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
-    if (client.connect("Client4")) {
+    if (client.connect("Clientname")) {
       Serial.println("connected");
       // Subscribe or resubscribe to a topic
       // You can subscribe to more topics (to control more LEDs in this example)
@@ -83,7 +82,7 @@ void loop() {
   }
   client.loop();
   now = millis();
-  // Publishes new temperature and humidity every 60 seconds
+  // Publishes new data every 60 seconds
   if (now - lastMeasure > 60000) {
     lastMeasure = now;
 
@@ -93,7 +92,7 @@ void loop() {
     static char spannung[7];
     float voltage = 2.97 * adcValue * (3.3 / 1023.0);// Calculate voltage according to digital Spannungsteiler und Umrechnung zur Leistung
     dtostrf(voltage, 6, 2, spannung);
-    client.publish("Yttest/spannung-steil", spannung);//hier topic anpassen
+    client.publish("Youtube-Topic", spannung);//hier topic anpassen
 
     Serial.print("- Spannung:  ");
     Serial.print(spannung);

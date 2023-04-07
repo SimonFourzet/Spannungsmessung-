@@ -1,0 +1,103 @@
+// 2022-08-20 Unterschiedliche Clientamen bei der Broker-Anmeldung: Version Client4 Spannung steil
+// 2022-08-21 Unterschiedliche Pub-Topics abhängig vom Client-Namen: Cl4
+// geht nur mit ESP8266 V3 (breiter USB Interface-Baustein)
+
+//=========================Initiale Bibliotheken und Variablen=================================
+//-------------------------Unterschiedliche Clients x mit Clientx an drei Stellen--------------
+// Loading the required libraries
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
+
+// Change the credentials below, so your ESP8266 connects to your router
+const char* ssid = "Name WiFi-Netz"; // Netzwerkname
+const char* password = "Passwort"; // Password
+
+// Change the variable to your Raspberry Pi IP address, so it connects to your MQTT broker
+const char* mqtt_server = "xxx.xxx.xxx.xx";// MQTT-Server-Adresse (aus Raspi-Setup)
+
+// Timers auxiliar variables
+long now = millis();
+long lastMeasure = 0;
+
+//=========================Initialisierungen===================================================
+// Initializes the espClient
+WiFiClient Client4;
+PubSubClient client(Client4);
+
+//*********************Funktionsaufrufe********************************************************
+//==================== connects ESP8266 to router==============================================
+void setup_wifi() {
+  delay(10);
+  // We start by connecting to a WiFi network
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.print("WiFi connected - ESP IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+//=============================Reconnect and subscription===================================
+// This functions reconnects your ESP8266 to your MQTT broker
+// Change the function below if you want to subscribe to more topics with your ESP8266
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect("Client4")) {
+      Serial.println("connected");
+      // Subscribe or resubscribe to a topic
+      // You can subscribe to more topics (to control more LEDs in this example)
+
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(1000);
+    }
+  }
+}
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>Setup<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+// The setup function sets your ESP GPIOs to Outputs, starts the serial communication at a baud rate of 115200
+// Sets your mqtt broker and sets the callback function
+// The callback function is what receives messages and actually controls the LEDs
+void setup() {
+  Serial.begin(115200);
+  setup_wifi();
+  client.setServer(mqtt_server, 1883);
+}
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>Arbeitsschleife<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+void loop() {
+
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+  now = millis();
+  // Publishes new temperature and humidity every 60 seconds
+  if (now - lastMeasure > 60000) {
+    lastMeasure = now;
+
+    // =================================Spannungsmessung============================
+    int adcValue; // Define a variable to save ADC value
+    adcValue = analogRead(A0); // Convert analog of pin A0 to digital voltage = adcValue * (3.3 / 1023.0);// Calculate voltage according to digital
+    static char spannung[7];
+    float voltage = 2.97 * adcValue * (3.3 / 1023.0);// Calculate voltage according to digital Spannungsteiler und Umrechnung zur Leistung
+    dtostrf(voltage, 6, 2, spannung);
+    client.publish("Yttest/spannung-steil", spannung);//hier topic anpassen
+
+    Serial.print("- Spannung:  ");
+    Serial.print(spannung);
+    Serial.println(" Volt");
+  }
+
+}
